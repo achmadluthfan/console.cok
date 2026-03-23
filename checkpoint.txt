@@ -1,0 +1,3 @@
+[@20March-2026] - resolve path for argument from CLI
+[@22March-2026] - get list of all files at the directory that send as a argument from CLI
+[@23March-2026] - detect console.log at file or files (at directory) use includes("console.log")
