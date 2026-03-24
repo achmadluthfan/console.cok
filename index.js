@@ -37,6 +37,9 @@ argv.forEach(async (val, index) => {
       } else {
         // read all file inside of directory
         const allFiles = await readdir(targetPath);
+        allFiles.shift();
+        console.log("allFiles after removed with pop", allFiles);
+
         // use forEach because not need to return or edit the targetPath variable
         allFiles.forEach(async (file) => {
           const data = await readFile(file, "utf8");
