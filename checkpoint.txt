@@ -2,3 +2,4 @@
 [@22March-2026] - get list of all files at the directory that send as a argument from CLI
 [@23March-2026] - detect console.log at file or files (at directory) use includes("console.log")
 [@24March-2026] - remove .git from list allFiles, learn fundamental about Buffer & Encoding
+[@25March-2026] - learn about AST (babel parser), instal @babel/parser
