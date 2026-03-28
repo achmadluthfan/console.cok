@@ -1,81 +1,75 @@
-// ======= 🥚 Phase 1 — Basic CLI (Entry Point) =======
-
 // to get argument from CLI
 import { allowedNodeEnvironmentFlags, argv } from "node:process";
 // to get information about path for argument
 import path from "node:path";
 // read all file inside of directory, file, check is directory / file, open specific file
 import { readdir, readFile, stat } from "fs/promises";
-// babel Parser for Abstract Syntax Tree
-import parser from "@babel/parser";
+// libs for parser
+import parseToAST from "./libs/parser";
 
 // // use forEach because not return new array
-// argv.forEach(async (val, index) => {
-//   const isScan = val.includes("scan");
+argv.forEach(async (val, index) => {
+  const isScan = val.includes("scan");
 
-//   // ======= 📂 Phase 2 — File System Exploration =======
-//   if (isScan) {
-//     for (let i = index; i <= index; i++) {
-//       // 1. resolve path from argument first
-//       const targetPath = path.resolve(argv[i + 1]);
+  // ======= 📂 Phase 2 — File System Exploration =======
+  // ======= ⚡ Phase 3 — Non-blocking IO & Event Loop =======
+  if (isScan) {
+    for (let i = index; i <= index; i++) {
+      // 1. resolve path from argument first
+      const targetPath = path.resolve(argv[i + 1]);
 
-//       // 2. check the arg is file or directory
-//       const isFile = (await stat(targetPath)).isFile();
-//       if (isFile) {
-//         // ===== fileHandle approach (use open from fs) ===== -> "buka file dulu → pegang aksesnya → nanti gue baca sendiri"
-//         // const fileHandle = await open(targetPath);
-//         // console.log("fileHandle", fileHandle);
-//         // const dataFromFileHandle = await fileHandle.readFile({
-//         //   encoding: "utf-8",
-//         // });
+      // 2. check the arg is file or directory
+      const isFile = (await stat(targetPath)).isFile();
+      if (isFile) {
+        // ===== fileHandle approach (use open from fs) ===== -> "buka file dulu → pegang aksesnya → nanti gue baca sendiri"
+        // const fileHandle = await open(targetPath);
+        // console.log("fileHandle", fileHandle);
+        // const dataFromFileHandle = await fileHandle.readFile({
+        //   encoding: "utf-8",
+        // });
 
-//         // ===== readFile approach (use readFile from fs) ==== -> "Bro, buka file ini → baca → kasih gue isinya"
-//         const dataFile = await readFile(targetPath, "utf8");
-//         if (dataFile.includes("console.log")) {
-//           console.log("ada conggg");
-//         } else {
-//           console.log("hell nahhh broww");
-//         }
-//       } else {
-//         // read all file inside of directory
-//         const allFiles = await readdir(targetPath);
-//         allFiles.shift();
+        // ======= 📦 Phase 4 — Buffer & Encoding =======
+        // ===== readFile approach (use readFile from fs) ==== -> "Bro, buka file ini → baca → kasih gue isinya"
+        const dataFile = await readFile(targetPath, "utf8");
+        if (dataFile.includes("console.log")) {
+          console.log("ada conggg");
+        } else {
+          console.log("hell nahhh broww");
+        }
+      } else {
+        // read all file inside of directory
+        const allFiles = await readdir(targetPath);
 
-//         // use forEach because not need to return or edit the targetPath variable
-//         allFiles.forEach(async (file) => {
-//           const data = await readFile(file, "utf8");
-//           if (data.includes("console.log")) {
-//             console.log("ada cokkkk, ", `File : ${file}`);
-//           } else {
-//             console.log("hell nah");
-//           }
-//         });
-//       }
+        const filteredFiles = allFiles.filter(
+          (file) =>
+            !file.startsWith(".") &&
+            file !== "node_modules" &&
+            !file.endsWith(".json")
+        );
 
-//       // if doenst -> use readdir to get information about file at the directory
+        // use forEach because not need to return or edit the targetPath variable
 
-//       //   argv[i + 1];
-//     }
-//   }
-// });
+        filteredFiles.forEach(async (file) => {
+          const data = await readFile(file, "utf8");
 
-const myFunction = "() => console.log(`test`)";
+          parseToAST(data);
 
-// const myFunction = () => console.log(`test`);
+          // if (data.includes("console.log")) {
+          //   console.log("ada cokkkk, ", `File : ${file}`);
+          // } else {
+          //   console.log("hell nah");
+          // }
+        });
+      }
 
-const ast = parser.parse(myFunction, {
-  sourceType: "module",
+      // if doenst -> use readdir to get information about file at the directory
+
+      //   argv[i + 1];
+    }
+  }
 });
 
-console.log("ast", ast.program.body);
-
-// 📂 Phase 2 — File System Exploration
-
-// ⚡ Phase 3 — Non-blocking IO & Event Loop
-
-// 📦 Phase 4 — Buffer & Encoding
-
-// 🔍 Phase 5 — Analyzer (Core Logic)
+// ======= 🔍 Phase 5 — Analyzer (Core Logic) =======
 
 // 🧠 Phase 6 — Improve Accuracy (Optional Advanced)
 

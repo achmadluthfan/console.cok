@@ -3,3 +3,4 @@
 [@23March-2026] - detect console.log at file or files (at directory) use includes("console.log")
 [@24March-2026] - remove .git from list allFiles, learn fundamental about Buffer & Encoding
 [@25March-2026] - learn about AST (babel parser), instal @babel/parser
+[@28March-2026] - try to create function for parser string to AST
