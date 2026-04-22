@@ -1,17 +1,17 @@
 // to get argument from CLI
-import { allowedNodeEnvironmentFlags, argv } from "node:process";
+import { argv } from "node:process";
 // to get information about path for argument
 import path from "node:path";
 // read all file inside of directory, file, check is directory / file, open specific file
 import { readdir, readFile, stat } from "fs/promises";
 // libs for parser
-import parseToAST from "./libs/parser";
+import parseToAST from "./lib/parser.js";
 
 // // use forEach because not return new array
 argv.forEach(async (val, index) => {
+  // ======= 📂 Phase 2 — File System Exploration =======
   const isScan = val.includes("scan");
 
-  // ======= 📂 Phase 2 — File System Exploration =======
   // ======= ⚡ Phase 3 — Non-blocking IO & Event Loop =======
   if (isScan) {
     for (let i = index; i <= index; i++) {
@@ -39,20 +39,26 @@ argv.forEach(async (val, index) => {
       } else {
         // read all file inside of directory
         const allFiles = await readdir(targetPath);
+        // console.log("files", allFiles);
 
+        // exclude file json for scan
         const filteredFiles = allFiles.filter(
           (file) =>
             !file.startsWith(".") &&
             file !== "node_modules" &&
-            !file.endsWith(".json")
+            !file.endsWith(".json") &&
+            !file.endsWith(".txt")
         );
+
+        const libRemoved = filteredFiles.filter((file) => file !== "lib");
 
         // use forEach because not need to return or edit the targetPath variable
 
-        filteredFiles.forEach(async (file) => {
+        libRemoved.forEach(async (file, index) => {
           const data = await readFile(file, "utf8");
 
-          parseToAST(data);
+          const result = parseToAST(data);
+          console.info("result %d", index, result.program);
 
           // if (data.includes("console.log")) {
           //   console.log("ada cokkkk, ", `File : ${file}`);

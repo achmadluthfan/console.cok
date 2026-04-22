@@ -4,3 +4,5 @@
 [@24March-2026] - remove .git from list allFiles, learn fundamental about Buffer & Encoding
 [@25March-2026] - learn about AST (babel parser), instal @babel/parser
 [@28March-2026] - try to create function for parser string to AST
+[@21April-2026] - try to implement parser.parse function, exclude lib directory from list to scan
+[@22April-2026] - try to know how to use data that have object (tree) format
